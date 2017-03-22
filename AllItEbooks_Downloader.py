@@ -75,12 +75,9 @@ if __name__=="__main__":
     postSiteMapXmlList.sort(reverse=True)
     for i in postSiteMapXmlList:
        postSiteMapLink = '/' + i.decode("utf-8").split('/')[1]
-       #print(postSiteMapLink)
        bookListPageContent = GetWebContent(website, postSiteMapLink)
        bookListUrls = GetPatternUrlLink(bookPageLinkPattern, bookListPageContent)
        for j in bookListUrls:
-           #print(j)
-           #print(j.decode("utf-8"))
            if LinkExisted(j.decode("utf-8")+"\n", bookList):
                continue
            else:
