@@ -2,6 +2,7 @@ import re
 import http.client
 import requests
 import os.path
+import sys
 
 
 def GetWebContent(url, webpage):
@@ -45,9 +46,23 @@ def LoadDownloadList(filename):
         booklist = f.readlines()
         return  booklist
 
+def ShowUsage():
+    print("Usage:")
+    print("      AllItEbooks_Downloader.py [/path/of/download/]")
+
+
 if __name__=="__main__":
-    pdfFolder = '/home/john/resdisk02/Ebooks/downloaded/'
-    downloadedBookList = "/home/john/resdisk02/Ebooks/DownloadList.txt"
+    if len(sys.argv) != 2:
+        print("Error: There is no download folder specified!")
+        ShowUsage()
+        exit()
+    if not os.path.exists(sys.argv[1]):
+        print("Error: " + sys.argv[1] + " is not a validated path!")
+        ShowUsage()
+        exit()
+    downloadPath = str(sys.argv[1])
+    pdfFolder = downloadPath + "/downloaded/"
+    downloadedBookList = downloadPath + "DownloadList.txt"
     siteMap = '/sitemap_index.xml'
     website = u'www.allitebooks.com'
     postSiteMapXmlPattern = b'<loc>http://(.*post-sitemap[^<]*)'
@@ -76,7 +91,10 @@ if __name__=="__main__":
                    DownloadPdf(k.decode("utf-8"), pdfFolder)
                SaveDownloadedInfo(downloadedBookList, j.decode("utf-8"))
                newbookAdded += 1
-    print("Today Have " + str(newbookAdded) + " new books added!")
+    if newbookAdded == 0:
+        print("No new ebooks has been found today!")
+    else:
+        print("Today there are " + str(newbookAdded) + " new ebooks added!")
 
 
 
