@@ -76,7 +76,7 @@ if __name__=="__main__":
                    DownloadPdf(k.decode("utf-8"), pdfFolder)
                SaveDownloadedInfo(downloadedBookList, j.decode("utf-8"))
                newbookAdded += 1
-    print("Today Have " + newbookAdded + " new books added!")
+    print("Today Have " + str(newbookAdded) + " new books added!")
 
 
 
